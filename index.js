@@ -1,63 +1,64 @@
-let alumnos = [];
+class Alumno {
+    constructor(nombre, nota1, nota2) {
+        this.nombre = nombre;
+        this.nota1 = nota1;
+        this.nota2 = nota2;
+        this.aprobado = (this.calcularPromedio() >= 7);
+    }
 
-const agregarAlumno = () => {
-  let alumno = {
-    nombre: prompt("Ingrese el nombre del estudiante:"),
-    nota1: parseFloat(prompt("Ingrese la primera nota del estudiante:")),
-    nota2: parseFloat(prompt("Ingrese la segunda nota del estudiante:")),
-    aprobado: false
-  };
-  alumno.aprobado = calcularPromedio(alumno) >= 7;
-  alumnos.push(alumno);
-};
-
-const calcularPromedio = alumno => {
-  return (alumno.nota1 + alumno.nota2) / 2;
-};
-
-const estudiantesAprobados = () => {
-  return alumnos.filter(alumno => alumno.aprobado);
-};
-
-const estudiantesDesaprobados = () => {
-  return alumnos.filter(alumno => !alumno.aprobado);
-};
-
-const imprimirResultado = () => {
-  let aprobado = estudiantesAprobados();
-  if (aprobado.length === 0) {
-    alert("No hay estudiantes aprobados");
-  } else {
-    alert("Estudiantes aprobados:");
-    aprobado.forEach(alumno => {
-      let promedio = calcularPromedio(alumno);
-      alert(alumno.nombre + ": " + promedio);
-    });
-  }
-  let noAprobados = estudiantesDesaprobados();
-  if (noAprobados.length === 0) {
-    alert("No hay estudiantes no aprobados");
-  } else {
-    alert("Estudiantes no aprobados:");
-    noAprobados.forEach(alumno => {
-      let promedio = calcularPromedio(alumno);
-      alert(alumno.nombre + ": " + promedio);
-    });
-  }
-};
-
-while (true) {
-  let option = prompt("Seleccione una opción:\n1. Agregar estudiante\n2. Mostrar resultados\n3. Salir");
-  if (option === "1") {
-    agregarAlumno();
-  } else if (option === "2") {
-    imprimirResultado();
-  } else if (option === "3") {
-    break;
-  } else {
-    alert("Opción inválida");
-  }
+    calcularPromedio() {
+        return (this.nota1 + this.nota2) / 2;
+    }
 }
+
+const alumnos = [];
+
+function agregarAlumno() {
+    const nombre = prompt("Ingrese el nombre del estudiante:");
+    const nota1 = parseFloat(prompt("Ingrese la primera nota del estudiante:"));
+    const nota2 = parseFloat(prompt("Ingrese la segunda nota del estudiante:"));
+    const alumno = new Alumno(nombre, nota1, nota2);
+    alumnos.push(alumno);
+  }
+  
+
+
+function estudiantesAprobados() {
+  return alumnos.filter(alumno => alumno.aprobado);
+}
+
+function estudiantesDesaprobados() {
+  return alumnos.filter(alumno => !alumno.aprobado);
+}
+
+function imprimirResultado() {
+    const aprobados = estudiantesAprobados();
+    let mensaje = "Alumnos aprobados:\n";
+    aprobados.forEach (alumno => {
+        mensaje += `- ${alumno.nombre} (${alumno.calcularPromedio()})\n`;
+    });
+    alert(mensaje);
+
+    const noAprobado = estudiantesDesaprobados();
+    mensaje = "Alumnos no aprobados:\n";
+    noAprobado.forEach (alumno => {
+        mensaje += `- ${alumno.nombre} (${alumno.calcularPromedio()})\n`;
+    });
+    alert(mensaje);
+    }
+
+
+    let option;
+    do {
+      option = parseInt(prompt("Elige una opción:\n1) Agregar alumno\n2) Ver resultados\n3) Salir"));
+      if (option === 1) {
+        agregarAlumno();
+      } else if (option === 2) {
+        imprimirResultado();
+      }
+    } while (option !== 3);
+
+
 
 
 
